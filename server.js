@@ -14,9 +14,7 @@ mongoose.connect('mongodb://localhost:27017/questionlocker');
 var app = express();
 
 // Use the body-parser package in our application
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.json());
 
 // Use the passport package in our application
 app.use(passport.initialize());

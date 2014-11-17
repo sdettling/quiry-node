@@ -4,9 +4,9 @@ var mongoose = require('mongoose');
 var Votes = new mongoose.Schema({
   weight: Number,
   userId: String
-}
+});
 
-var Options = new mongoose.Schema({
+var Choices = new mongoose.Schema({
   description: String,
   votes: [Votes]
 });
@@ -19,8 +19,11 @@ var QuestionSchema = new mongoose.Schema({
   ranked: Boolean,
   published: Boolean,
   token: String,
+  createdDate: Date,
+  modifiedDate: Date,
+  publishedDate: Date,
   userId: String,
-  options: [Options]
+  choices: [Choices]
 });
 
 // Export the Mongoose model

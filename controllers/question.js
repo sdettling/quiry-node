@@ -7,15 +7,56 @@ exports.postQuestions = function(req, res) {
   var question = new Question();
 
   // Set the question properties that came from the POST data
-  question.description = req.body.des;
+  var date = new Date();
+  question.description = req.body.description;
+  question.minSelections = req.body.minSelections;
+  question.maxSelections = req.body.maxSelections;
+  question.ranked = req.body.ranked;
+  question.published = req.body.published;
+  question.createdDate = date;
+  question.publishedDate = date;
+  question.modifiedDate = date;
+  question.token = "xxxxxx"
   question.userId = req.user._id;
+  question.choices = req.body.choices;
+
+  /*
+  {
+    "description": "My question?",
+    "minSelections": 1,
+    "maxSelections": 4,
+    "ranked": false,
+    "published": true,
+    "createdDate": date,
+    "publishedDate": date,
+    "modifiedDate": date,
+    "token": "xxxxxx",
+    "userId": req.user._id,
+    "choices": [
+      {
+        "description": "choice 1"
+      },
+      {
+        "description": "choice 2"
+      },
+      {
+        "description": "choice 3"
+      },
+      {
+        "description": "choice 4"
+      }
+    ]
+  }
+  */
+
+  console.log(req.body);
 
   // Save the question and check for errors
   question.save(function(err) {
     if (err)
       res.send(err);
 
-    res.json({ message: 'Question added to the locker!', data: question });
+    res.json({ message: 'Question added!', data: question });
   });
 };
 
