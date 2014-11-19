@@ -7,16 +7,16 @@ var questionController = require('./controllers/question');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
-// Connect to the questionlocker MongoDB
-mongoose.connect('mongodb://localhost:27017/questionlocker');
+// Connect to the quiry MongoDB
+mongoose.connect('mongodb://localhost:27017/quiry');
 
 // Create our Express application
 var app = express();
 
-// Use the body-parser package in our application
+// Use the body-parser package
 app.use(bodyParser.json());
 
-// Use the passport package in our application
+// Use the passport package
 app.use(passport.initialize());
 
 // Create our Express router
