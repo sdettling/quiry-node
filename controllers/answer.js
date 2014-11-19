@@ -1,35 +1,28 @@
 // Load required packages
-var Question = require('../models/question');
-var crypto = require('crypto');
+var Answer = require('../models/answer');
 
 // Create endpoint /api/questions for POST
-exports.postQuestions = function(req, res) {
+exports.postAnswers = function(req, res) {
   // Create a new instance of the Question model
-  var question = new Question();
-  var token = crypto.randomBytes(3).toString('hex');
+  var answer = new Answer();
 
-  // Set the question properties that came from the POST data
+  // Set the answer properties that came from the POST data
   var date = new Date();
-  question.description = req.body.description;
-  question.minSelections = req.body.minSelections;
-  question.maxSelections = req.body.maxSelections;
-  question.ranked = req.body.ranked;
-  question.published = req.body.published;
-  question.createdDate = date;
-  question.publishedDate = date;
-  question.modifiedDate = date;
-  question.token = token;
-  question.userId = req.user._id;
-  question.choices = req.body.choices;
+  answer.displayName = req.body.displayName;
+  answer.createdDate = date;
+  answer.modifiedDate = date;
+  answer.userId = req.user._id;
+  answer.questionId = req.params.question_id;
+  answer.votes = req.body.votes;
 
   console.log(req.body);
 
-  // Save the question and check for errors
-  question.save(function(err) {
+  // Save the answer and check for errors
+  answer.save(function(err) {
     if (err)
       res.send(err);
 
-    res.json({ message: 'Question added!', data: question });
+    res.json({ message: 'Answer added!', data: answer });
   });
 };
 

@@ -76,3 +76,31 @@ via put
   }
 ```
 
+### create new answer
+
+via post
+
+```javascript
+{
+  "displayName": "Mr. Answer",
+  "votes": [
+    {
+      "value": "4",
+      "choiceId": "546cd5137498cf1e3c40637a"
+    },
+    {
+      "value": "3",
+      "choiceId": "546cd5137498cf1e3c406379"
+    },
+    {
+      "value": "2",
+      "choiceId": "546cd5137498cf1e3c406378"
+    },
+    {
+      "value": "1",
+      "choiceId": "546cd5137498cf1e3c406377"
+    },
+  ]
+}
+```
+

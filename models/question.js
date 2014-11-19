@@ -1,14 +1,9 @@
 // Load required packages
 var mongoose = require('mongoose');
 
-var Votes = new mongoose.Schema({
-  weight: Number,
-  userId: String
-});
-
 var Choices = new mongoose.Schema({
   description: String,
-  votes: [Votes]
+  totalVotes: Number
 });
 
 // Define our question schema

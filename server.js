@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var questionController = require('./controllers/question');
+var answerController = require('./controllers/answer');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
@@ -32,6 +33,15 @@ router.route('/questions/:question_id')
   .get(authController.isAuthenticated, questionController.getQuestion)
   .put(authController.isAuthenticated, questionController.putQuestion)
   .delete(authController.isAuthenticated, questionController.deleteQuestion);
+
+router.route('/questions/:question_id/answers')
+  .post(authController.isAuthenticated, answerController.postAnswers);
+/*  .get(authController.isAuthenticated, answerController.getAnswers);
+
+router.route('/questions/:question_id/answers/:answer_id')
+  .get(authController.isAuthenticated, answerController.getAnswer)
+  .put(authController.isAuthenticated, answerController.putAnswer)
+  .delete(authController.isAuthenticated, answerController.deleteAnswer);*/
 
 // Create endpoint handlers for /users
 router.route('/users')
