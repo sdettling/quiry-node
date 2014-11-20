@@ -27,31 +27,31 @@ exports.postAnswers = function(req, res) {
 };
 
 // Create endpoint /api/questions for GET
-exports.getQuestions = function(req, res) {
-  // Use the Question model to find all question
-  Question.find({ userId: req.user._id }, function(err, questions) {
+exports.getAnswers = function(req, res) {
+  // Use the Answer model to find all answers
+  Answer.find({ userId: req.user._id }, function(err, answers) {
     if (err)
       res.send(err);
 
-    res.json(questions);
+    res.json(answers);
   });
 };
 
-// Create endpoint /api/questions/:question_id for GET
-exports.getQuestion = function(req, res) {
-  // Use the Question model to find a specific question
-  Question.find({ userId: req.user._id, _id: req.params.question_id }, function(err, question) {
+// Create endpoint /api/questions/:answer_id for GET
+exports.getAnswer = function(req, res) {
+  // Use the Answer model to find a specific answer
+  Answer.find({ userId: req.user._id, _id: req.params.answer_id }, function(err, answer) {
     if (err)
       res.send(err);
 
-    res.json(question);
+    res.json(answer);
   });
 };
 
-// Create endpoint /api/questions/:question_id for PUT
-exports.putQuestion = function(req, res) {
-  // Use the Question model to find a specific question
-  Question.update({ userId: req.user._id, _id: req.params.question_id }, req.body, function(err, num, raw) {
+// Create endpoint /api/questions/:answer_id for PUT
+exports.putAnswer = function(req, res) {
+  // Use the Answer model to find a specific answer
+  Answer.update({ userId: req.user._id, _id: req.params.answer_id }, req.body, function(err, num, raw) {
     if (err)
       res.send(err);
 
@@ -60,12 +60,12 @@ exports.putQuestion = function(req, res) {
 };
 
 // Create endpoint /api/questions/:question_id for DELETE
-exports.deleteQuestion = function(req, res) {
-  // Use the Question model to find a specific question and remove it
-  Question.remove({ userId: req.user._id, _id: req.params.question_id }, function(err) {
+exports.deleteAnswer = function(req, res) {
+  // Use the Answer model to find a specific answer and remove it
+  Answer.remove({ userId: req.user._id, _id: req.params.answer_id }, function(err) {
     if (err)
       res.send(err);
 
-    res.json({ message: 'Question deleted!' });
+    res.json({ message: 'Answer deleted!' });
   });
 };

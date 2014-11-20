@@ -8,6 +8,10 @@ exports.postQuestions = function(req, res) {
   var question = new Question();
   var token = crypto.randomBytes(3).toString('hex');
 
+  //token unique required
+  //description required, max characters
+  //
+
   // min > 0 and <= max
   // max >= min and <= total choices
 
