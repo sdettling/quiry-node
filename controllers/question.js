@@ -8,7 +8,9 @@ exports.postQuestions = function(req, res) {
   var question = new Question();
   var token = crypto.randomBytes(3).toString('hex');
 
-  // Set the question properties that came from the POST data
+  // min > 0 and <= max
+  // max >= min and <= total choices
+
   var date = new Date();
   question.description = req.body.description;
   question.minSelections = req.body.minSelections;
@@ -16,7 +18,12 @@ exports.postQuestions = function(req, res) {
   question.ranked = req.body.ranked;
   question.published = req.body.published;
   question.createdDate = date;
-  question.publishedDate = date;
+  if (question.published) {
+    question.publishedDate = date;
+  }
+  else {
+    question.published = null;
+  }
   question.modifiedDate = date;
   question.token = token;
   question.userId = req.user._id;
@@ -57,7 +64,7 @@ exports.getQuestion = function(req, res) {
 
 // Create endpoint /api/questions/:question_id for PUT
 exports.putQuestion = function(req, res) {
-  // Use the Question model to find a specific question
+  // If published don't allow changes
   Question.update({ userId: req.user._id, _id: req.params.question_id }, req.body, function(err, num, raw) {
     if (err)
       res.send(err);
