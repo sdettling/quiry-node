@@ -47,7 +47,7 @@ exports.postQuestions = function(req, res) {
 // Create endpoint /api/questions for GET
 exports.getQuestions = function(req, res) {
   // Use the Question model to find all question
-  Question.find({ userId: req.user._id }, function(err, questions) {
+  Question.find(function(err, questions) {
     if (err)
       res.send(err);
 

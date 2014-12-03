@@ -14,6 +14,8 @@ mongoose.connect('mongodb://localhost:27017/quiry');
 // Create our Express application
 var app = express();
 
+module.exports = app;
+
 // Use the body-parser package
 app.use(bodyParser.json());
 
@@ -26,7 +28,7 @@ var router = express.Router();
 // Create endpoint handlers for /questions
 router.route('/questions')
   .post(authController.isAuthenticated, questionController.postQuestions)
-  .get(authController.isAuthenticated, questionController.getQuestions);
+  .get(questionController.getQuestions);
 
 // Create endpoint handlers for /questions/:question_id
 router.route('/questions/:question_id')

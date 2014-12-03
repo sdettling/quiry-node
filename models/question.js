@@ -25,8 +25,8 @@ var ChoiceSchema = new mongoose.Schema({
 // Define our question schema
 var QuestionSchema = new mongoose.Schema({
   description: {type: String, required: true, validate: questionValidator},
-  minSelections: {type: Number, required: true, min: 1},
-  maxSelections: {type: Number, required: true, min: 1},
+  minSelections: {type: Number, required: true, min: 2},
+  maxSelections: {type: Number, required: true, min: 2},
   ranked: {type: Boolean},
   published: {type: Boolean},
   token: {type: String, required: true, unique: true},

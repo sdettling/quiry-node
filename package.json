@@ -9,5 +9,10 @@
     "mongoose-validator": "^1.0.2",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*",
+    "supertest": "*"
   }
 }
