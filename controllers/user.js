@@ -9,10 +9,13 @@ exports.postUsers = function(req, res) {
   });
 
   user.save(function(err) {
-    if (err)
-      res.send(err);
-
-    res.json({ message: 'New user added!' });
+    if (err && (11000 === err.code || 11001 === err.code)) { 
+      
+      res.status(400).json({ status: 'error', data: err, message : 'Submitted username already exists' });
+    }
+    else {
+      res.json({ status: 'success', data: user, message: 'New user added!' });
+    }
   });
 };
 

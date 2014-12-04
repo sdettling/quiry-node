@@ -40,24 +40,25 @@ describe('GET /api/questions', function(){
       .expect(200)
       .end(function(err, res){
         console.log(res.body.length)
-        expect(res.body).to.have.length.above(5);
+        expect(res.body).to.have.length.above(0);
         done();
       });
-  })
-})
+  });
 
-/*describe("Posting is easy to test with supertest", function (){
- 
-  it("posts a new user to api/users", function(done){
+  /*it("posts a new user to api/users", function(done){
     var user = { username : 'test', password : 'TestPass!'};
- 
     request(app)
       .post("/api/users")
       .send(user)
       .expect(200)
-      .expect('{"message":"New user added!"}', done);
-  });
-});*/
+      .end(function(err, res){
+        console.log(res.body)
+        //expect(res.body).to.have.length.above(5);
+        done();
+      });
+      //.expect('{"message":"New user added!"}', done);
+  });*/
+});
 
 //tests
 
