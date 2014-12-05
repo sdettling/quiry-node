@@ -16,6 +16,7 @@ var foobar = {
 };
 
 describe('Questions', function () {
+  var testQuestionId = null;
   describe('GET /api/questions', function(){
     it('responds with json', function(done){done();})
   });
@@ -32,6 +33,7 @@ describe('Questions', function () {
         .end(function(err, res){
           expect(res.body.status).to.equal("success");
           expect(res.body.data._id).not.to.be.null;
+          testQuestionId = res.body.data._id;
           done();
         });
     })
@@ -80,7 +82,20 @@ describe('Questions', function () {
   });
   describe('DELETE /api/questions', function(){
     it('responds with json', function(done){done();})
-    it('deletes the specified question', function(done){done();})
+    it('deletes the specified question', function(done){
+      var question = { description : 'My question?', minSelections : 0, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
+      request(app)
+        .delete('/api/questions/' + testQuestionId)
+        .set('Accept', 'application/json')
+        .set('Authorization', 'Basic c3RldmU6cGFzc3dvcmQ=')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res){
+          expect(res.body.status).to.equal("success");
+          expect(res.body.message).to.equal("Question deleted");
+          done();
+        });
+    })
   });
 });
 

@@ -86,9 +86,11 @@ exports.putQuestion = function(req, res) {
 exports.deleteQuestion = function(req, res) {
   // Use the Question model to find a specific question and remove it
   Question.remove({ userId: req.user._id, _id: req.params.question_id }, function(err) {
-    if (err)
-      res.send(err);
-
-    res.json({ message: 'Question deleted!' });
+    if (err) {
+      res.json({ status: 'error', data: question, message : err.message });
+    }
+    else {
+      res.json({ status: 'success', data: {}, message: 'Question deleted' });
+    }
   });
 };
