@@ -25,8 +25,8 @@ var ChoiceSchema = new mongoose.Schema({
 // Define our question schema
 var QuestionSchema = new mongoose.Schema({
   description: {type: String, required: true, validate: questionValidator},
-  minSelections: {type: Number, required: true, min: 2},
-  maxSelections: {type: Number, required: true, min: 2},
+  minSelections: {type: Number, required: true, min: 1},
+  maxSelections: {type: Number, required: true, min: 1},
   ranked: {type: Boolean},
   published: {type: Boolean},
   token: {type: String, required: true, unique: true},
@@ -38,27 +38,29 @@ var QuestionSchema = new mongoose.Schema({
 });
 
 
-QuestionSchema.pre('save', function(callback) {
+QuestionSchema.pre('save', function(next) {
   var question = this;
-  //console.log(question);
-
+  if (question.choices.length < 2) {
+    var err = new Error('Question must have at least 2 choices');
+    next(err);
+  }
   if (question.maxSelections > question.choices.length) {
-    //error: Max selections cannot be higher than the total number of choices
+    var err = new Error('Max selections cannot be higher than the total number of choices');
+    next(err);
   }
   if (question.ranked) {
     if (question.minSelections != question.maxSelections) {
-      //error: Ranked questions require min and max selections to be equal to each other
+      var err = new Error('Ranked questions require min and max selections to be equal to each other');
+      next(err);
     }
   }
   else {
     if (question.minSelections > question.maxSelections) {
-      //error: Minimum selections must be less than or equal to maximum selections
+      var err = new Error('Minimum selections must be less than or equal to maximum selections');
+      next(err);
     }
   }
-  
-  //validate if choices changed for update
-  callback();
-
+  next();
 });
 
 // Export the Mongoose model

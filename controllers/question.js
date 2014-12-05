@@ -33,14 +33,19 @@ exports.postQuestions = function(req, res) {
   question.userId = req.user._id;
   question.choices = req.body.choices;
 
-  console.log(req.body);
+  //console.log(req.body);
 
   // Save the question and check for errors
   question.save(function(err) {
-    if (err)
-      res.send(err);
-
-    res.json({ message: 'Question added!', data: question });
+    if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
+      res.status(400).json({ status: 'error', data: question, message : err.errors });
+    }
+    else if (err) { 
+      res.status(400).json({ status: 'error', data: question, message : err.message });
+    }
+    else {
+      res.json({ status: 'success', data: question, message: 'Question added!' });
+    }
   });
 };
 
