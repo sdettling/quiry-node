@@ -27,14 +27,14 @@ var router = express.Router();
 
 // Create endpoint handlers for /questions
 router.route('/questions')
-  .post(authController.isAuthenticated, questionController.postQuestions)
+  .post(questionController.postQuestions)
   .get(questionController.getQuestions);
 
 // Create endpoint handlers for /questions/:question_id
 router.route('/questions/:question_id')
-  .get(authController.isAuthenticated, questionController.getQuestion)
-  .put(authController.isAuthenticated, questionController.putQuestion)
-  .delete(authController.isAuthenticated, questionController.deleteQuestion);
+  .get(questionController.getQuestion)
+  .put(questionController.putQuestion)
+  .delete(questionController.deleteQuestion);
 
 router.route('/questions/:question_id/answers')
   .post(authController.isAuthenticated, answerController.postAnswers);

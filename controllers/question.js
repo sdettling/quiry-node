@@ -1,5 +1,6 @@
 // Load required packages
 var Question = require('../models/question');
+var User = require('../models/user');
 var crypto = require('crypto');
 
 // Create endpoint /api/questions for POST
@@ -7,15 +8,9 @@ exports.postQuestions = function(req, res) {
   // Create a new instance of the Question model
   var question = new Question();
   var token = crypto.randomBytes(3).toString('hex');
-
-  //token unique required
-  //description required, max characters
-  //
-
-  // min > 0 and <= max
-  // max >= min and <= total choices
-
+  var userid = null
   var date = new Date();
+
   question.description = req.body.description;
   question.minSelections = req.body.minSelections;
   question.maxSelections = req.body.maxSelections;
@@ -30,21 +25,47 @@ exports.postQuestions = function(req, res) {
   }
   question.modifiedDate = date;
   question.token = token;
-  question.userId = req.user._id;
   question.choices = req.body.choices;
 
-  //console.log(req.body);
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (user == null) {
+      user = new User();
+      user.email = req.body.email;
+      user.save(function(err) {
+        if (err)
+          console.log(err) // put in actual response errors here
+        question.userId = user._id;
 
-  // Save the question and check for errors
-  question.save(function(err) {
-    if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
-      res.status(400).json({ status: 'error', data: question, message : err.errors });
-    }
-    else if (err) { 
-      res.status(400).json({ status: 'error', data: question, message : err.message });
+        // also return user if created
+        question.save(function(err) {
+          if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
+            res.status(400).json({ status: 'error', data: question, message : err.errors });
+          }
+          else if (err) { 
+            res.status(400).json({ status: 'error', data: question, message : err.message });
+          }
+          else {
+            res.json({ status: 'success', data: question, message: 'Question added and new user created.' });
+          }
+        });
+
+      });
     }
     else {
-      res.json({ status: 'success', data: question, message: 'Question added!' });
+      question.userId = user._id;
+
+      question.save(function(err) {
+        if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
+          res.status(400).json({ status: 'error', data: question, message : err.errors });
+        }
+        else if (err) { 
+          res.status(400).json({ status: 'error', data: question, message : err.message });
+        }
+        else {
+          res.json({ status: 'success', data: question, message: 'Question added.' });
+        }
+      });
+
     }
   });
 };

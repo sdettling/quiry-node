@@ -4,14 +4,14 @@ var User = require('../models/user');
 // Create endpoint /api/users for POST
 exports.postUsers = function(req, res) {
   var user = new User({
-    username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   });
 
   user.save(function(err) {
     if (err && (11000 === err.code || 11001 === err.code)) { 
       
-      res.status(400).json({ status: 'error', data: err, message : 'Submitted username already exists' });
+      res.status(400).json({ status: 'error', data: err, message : 'Submitted email already exists' });
     }
     else {
       res.json({ status: 'success', data: user, message: 'New user added!' });

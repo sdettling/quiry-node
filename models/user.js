@@ -4,20 +4,25 @@ var bcrypt = require('bcrypt-nodejs');
 
 // Define our user schema
 var UserSchema = new mongoose.Schema({
-  username: {
+  email: {
     type: String,
     unique: true,
     required: true
   },
   password: {
     type: String,
-    required: true
+    required: false
   }
 });
 
 // Execute before each user.save() call
 UserSchema.pre('save', function(callback) {
   var user = this;
+
+  console.log(user.password)
+
+  // Break out if password is blank
+  if (user.password == null) return callback();
 
   // Break out if the password hasn't changed
   if (!user.isModified('password')) return callback();
