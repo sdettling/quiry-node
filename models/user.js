@@ -19,7 +19,7 @@ var UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function(callback) {
   var user = this;
 
-  console.log(user.password)
+  //console.log(user.password)
 
   // Break out if password is blank
   if (user.password == null) return callback();

@@ -32,22 +32,27 @@ exports.postQuestions = function(req, res) {
       user = new User();
       user.email = req.body.email;
       user.save(function(err) {
-        if (err)
-          console.log(err) // put in actual response errors here
-        question.userId = user._id;
+        if (err) {
+          res.send(err);
+        }
+        else {
+          
+          question.userId = user._id;
+          
+          var dataObject = {"question": question, "user": user};
 
-        // also return user if created
-        question.save(function(err) {
-          if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
-            res.status(400).json({ status: 'error', data: question, message : err.errors });
-          }
-          else if (err) { 
-            res.status(400).json({ status: 'error', data: question, message : err.message });
-          }
-          else {
-            res.json({ status: 'success', data: question, message: 'Question added and new user created.' });
-          }
-        });
+          question.save(function(err) {
+            if (err && ('ValidationError' === err.name || 'Validation failed' === err.message)) {
+              res.status(400).json({ status: 'error', data: dataObject, message : err.errors });
+            }
+            else if (err) { 
+              res.status(400).json({ status: 'error', data: dataObject, message : err.message });
+            }
+            else {
+              res.json({ status: 'success', data: dataObject, message: 'Question added and new user created.' });
+            }
+          });
+        }
 
       });
     }
@@ -106,7 +111,7 @@ exports.putQuestion = function(req, res) {
 // Create endpoint /api/questions/:question_id for DELETE
 exports.deleteQuestion = function(req, res) {
   // Use the Question model to find a specific question and remove it
-  Question.remove({ userId: req.user._id, _id: req.params.question_id }, function(err) {
+  Question.remove({ _id: req.params.question_id }, function(err) {
     if (err) {
       res.json({ status: 'error', data: question, message : err.message });
     }

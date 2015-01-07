@@ -18,11 +18,18 @@ var foobar = {
 describe('Questions', function () {
   var testQuestionId = null;
   describe('GET /api/questions', function(){
-    it('responds with json', function(done){done();})
+    it('responds with json', function(done){
+      request(app)
+        .get('/api/questions')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        done();
+    })
   });
   describe('POST /api/questions', function(){
     it('responds with json on success', function(done){
-      var question = { description : 'My question?', minSelections : 1, maxSelections: 4, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}, {description: 'choice 3'}, {description: 'choice 4'}]};
+      var question = { description : 'My question?', email : 'test@quiry.com', minSelections : 1, maxSelections: 4, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}, {description: 'choice 3'}, {description: 'choice 4'}]};
       request(app)
         .post('/api/questions')
         .set('Accept', 'application/json')
@@ -37,7 +44,7 @@ describe('Questions', function () {
         });
     })
     it('should not have less than 2 choices', function(done){
-      var question = { description : 'My question?', minSelections : 1, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}]};
+      var question = { description : 'My question?', email : 'test@quiry.com', minSelections : 1, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}]};
       request(app)
         .post('/api/questions')
         .set('Accept', 'application/json')
@@ -51,7 +58,7 @@ describe('Questions', function () {
         });
     })
     it('min selections should be greater than 0', function(done){
-      var question = { description : 'My question?', minSelections : 0, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
+      var question = { description : 'My question?', email : 'test@quiry.com', minSelections : 0, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
       request(app)
         .post('/api/questions')
         .set('Accept', 'application/json')
@@ -64,23 +71,25 @@ describe('Questions', function () {
           done();
         });
     })
-    it('max selections should be greater than 0', function(done){done();})
-    it('max selections should be less than or equal to total choices', function(done){done();})
-    it('min selections should be less than or equal to max selections', function(done){done();})
-    it('min and max selections should be equal when question type is ranked', function(done){done();})
-    it('should belong to a user', function(done){done();})
-    it('should have a description less than 300 characters', function(done){done();})
-    it('should return unauthorized if user not logged in', function(done){done();})
-    it('should have unique choices', function(done){done();})
+    /*it('max selections should be greater than 0', function(done){})
+    it('max selections should be less than or equal to total choices', function(done){})
+    it('min selections should be less than or equal to max selections', function(done){})
+    it('min and max selections should be equal when question type is ranked', function(done){})
+    it('should belong to a user', function(done){})
+    it('should have a description less than 300 characters', function(done){})
+    it('should return unauthorized if user not logged in', function(done){})
+    it('should have unique choices', function(done){})
+    it('should use user account with matching email')
+    it('should create new user if user with that email does not exist')
+    */
   });
   describe('PUT /api/questions', function(){
-    it('responds with json', function(done){done();})
-    it('should not replace identical choices', function(done){done();})
+    //it('responds with json', function(done){})
+    //it('should not replace identical choices', function(done){})
   });
   describe('DELETE /api/questions', function(){
     it('responds with json', function(done){done();})
     it('deletes the specified question', function(done){
-      var question = { description : 'My question?', minSelections : 0, maxSelections: 1, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
       request(app)
         .delete('/api/questions/' + testQuestionId)
         .set('Accept', 'application/json')

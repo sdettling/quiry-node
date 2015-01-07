@@ -4,11 +4,15 @@ quiry-node
 API
 ---
 
-### get questions
+Questions
+---------
+
+### get all questions
 
 /api/questions
 
 via get
+
 
 ### get specific question
 
@@ -16,35 +20,13 @@ via get
 
 via get
 
+
 ### create new question
 
 /api/questions
 
 via post
 
-```javascript
-{
-    "description": "My question?",
-    "minSelections": 1,
-    "maxSelections": 4,
-    "ranked": false,
-    "published": true,
-    "choices": [
-      {
-        "description": "choice 1"
-      },
-      {
-        "description": "choice 2"
-      },
-      {
-        "description": "choice 3"
-      },
-      {
-        "description": "choice 4"
-      }
-    ]
-  }
-```
 
 ### update question
 
@@ -52,55 +34,33 @@ via post
 
 via put
 
-```javascript
-{
-    "description": "My question?",
-    "minSelections": 1,
-    "maxSelections": 4,
-    "ranked": false,
-    "published": true,
-    "choices": [
-      {
-        "description": "choice 1"
-      },
-      {
-        "description": "choice 2"
-      },
-      {
-        "description": "choice 3"
-      },
-      {
-        "description": "choice 4"
-      }
-    ]
-  }
-```
+
+### delete question
+
+/api/question/:id
+
+via delete
+
+
+Answers
+_______
 
 ### create new answer
 
+/api/answers
+
 via post
 
-```javascript
-{
-  "displayName": "Mr. Answer",
-  "votes": [
-    {
-      "value": "4",
-      "choiceId": "546cd5137498cf1e3c40637a"
-    },
-    {
-      "value": "3",
-      "choiceId": "546cd5137498cf1e3c406379"
-    },
-    {
-      "value": "2",
-      "choiceId": "546cd5137498cf1e3c406378"
-    },
-    {
-      "value": "1",
-      "choiceId": "546cd5137498cf1e3c406377"
-    },
-  ]
-}
-```
 
+### update answer
+
+/api/answers/:id
+
+via put
+
+
+### delete answer
+
+/api/answers/:id
+
+via put
