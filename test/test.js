@@ -71,8 +71,35 @@ describe('Questions', function () {
           done();
         });
     })
-    /*it('max selections should be greater than 0', function(done){})
-    it('max selections should be less than or equal to total choices', function(done){})
+    it('max selections should be greater than 0', function(done){
+      var question = { description : 'My question?', email : 'test@quiry.com', minSelections : 2, maxSelections: 0, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
+      request(app)
+        .post('/api/questions')
+        .set('Accept', 'application/json')
+        .send(question)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res){
+          expect(res.body.status).to.equal("error");
+          expect(res.body.message.maxSelections.message).to.equal("Path `maxSelections` () is less than minimum allowed value (1).");
+          done();
+        });
+    })
+    it('max selections should be less than or equal to total choices', function(done){
+      var question = { description : 'My question?', email : 'test@quiry.com', minSelections : 2, maxSelections: 3, ranked: false, published: false, choices: [ {description: 'choice 1'}, {description: 'choice 2'}]};
+      request(app)
+        .post('/api/questions')
+        .set('Accept', 'application/json')
+        .send(question)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function(err, res){
+          expect(res.body.status).to.equal("error");
+          expect(res.body.message).to.equal("Max selections cannot be higher than the total number of choices");
+          done();
+        });
+    })
+    /*
     it('min selections should be less than or equal to max selections', function(done){})
     it('min and max selections should be equal when question type is ranked', function(done){})
     it('should belong to a user', function(done){})

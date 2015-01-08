@@ -38,7 +38,7 @@ var QuestionSchema = new mongoose.Schema({
 });
 
 
-QuestionSchema.pre('save', function(next) {
+QuestionSchema.pre('validate', true, function(next, done) {
   var question = this;
   if (question.choices.length < 2) {
     var err = new Error('Question must have at least 2 choices');
