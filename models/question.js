@@ -1,31 +1,20 @@
 // Load required packages
 var mongoose = require('mongoose');
-var validate = require('mongoose-validator');
 
-var questionValidator = [
-  validate({
-    validator: 'isLength',
-    arguments: [1, 300],
-    message: 'Question should be between 1 and 300 characters'
-  })
-];
-var choiceValidator = [
-  validate({
-    validator: 'isLength',
-    arguments: [1, 150],
-    message: 'Choice should be between 1 and 150 characters'
-  })
-];
+function minLessThanMax (value) {
+  console.log(this)
+  return value <= this.maxSelections;
+}
 
 var ChoiceSchema = new mongoose.Schema({
-  description: {type: String, required: true, validate: choiceValidator},
+  description: {type: String, required: true},
   totalVotes: {type: Number, min: 0}
 });
 
 // Define our question schema
 var QuestionSchema = new mongoose.Schema({
-  description: {type: String, required: true, validate: questionValidator},
-  minSelections: {type: Number, required: true, min: 1},
+  description: {type: String, required: true},
+  minSelections: {type: Number, required: true, min: 1, validate: minLessThanMax},
   maxSelections: {type: Number, required: true, min: 1},
   ranked: {type: Boolean},
   published: {type: Boolean},
@@ -38,7 +27,7 @@ var QuestionSchema = new mongoose.Schema({
 });
 
 
-QuestionSchema.pre('validate', true, function(next, done) {
+/*QuestionSchema.pre('validate', true, function(next, done) {
   var question = this;
   if (question.choices.length < 2) {
     var err = new Error('Question must have at least 2 choices');
@@ -61,7 +50,7 @@ QuestionSchema.pre('validate', true, function(next, done) {
     }
   }
   next();
-});
+});*/
 
 // Export the Mongoose model
 module.exports = mongoose.model('Question', QuestionSchema);
